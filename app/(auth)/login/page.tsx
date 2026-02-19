@@ -40,51 +40,50 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex min-h-screen items-center justify-center p-4">
-            <Card className="w-full max-w-md border-zinc-800 bg-zinc-950/50 backdrop-blur-sm">
-                <CardHeader className="space-y-1">
-                    <CardTitle className="text-2xl font-bold tracking-tight text-center">
-                        Welcome Back
-                    </CardTitle>
-                    <CardDescription className="text-center">
-                        Enter your email to sign in to your account
-                    </CardDescription>
-                </CardHeader>
-                <form onSubmit={handleSubmit}>
-                    <CardContent className="space-y-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input id="email" name="email" type="email" placeholder="m@example.com" required />
-                        </div>
-                        <div className="space-y-2">
-                            <div className="flex items-center justify-between">
-                                <Label htmlFor="password">Password</Label>
-                                <Link href="#" className="text-sm text-muted-foreground hover:text-primary underline-offset-4 hover:underline">
-                                    Forgot password?
-                                </Link>
-                            </div>
-                            <Input id="password" name="password" type="password" required />
-                        </div>
-                        {error && (
-                            <div className="text-red-500 text-sm text-center font-medium">
-                                {error}
-                            </div>
-                        )}
-                    </CardContent>
-                    <CardFooter className="flex flex-col gap-4">
-                        <Button className="w-full font-semibold" disabled={loading}>
-                            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            Sign In
-                        </Button>
-                        <div className="text-center text-sm text-muted-foreground">
-                            Don&apos;t have an account?{' '}
-                            <Link href="/signup" className="underline underline-offset-4 hover:text-primary">
-                                Sign up
+        <Card className="w-full border border-white/10 bg-zinc-900/40 backdrop-blur-xl shadow-2xl">
+            <CardHeader className="space-y-1 text-center">
+                <CardTitle className="text-2xl font-bold tracking-tight text-white">
+                    Welcome Back
+                </CardTitle>
+                <CardDescription className="text-zinc-400">
+                    Enter your email to sign in to your account
+                </CardDescription>
+            </CardHeader>
+            <form onSubmit={handleSubmit}>
+                <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="email">Email</Label>
+                        <Input id="email" name="email" type="email" placeholder="m@example.com" required />
+                    </div>
+                    <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                            <Label htmlFor="password">Password</Label>
+                            <Link href="#" className="text-sm text-muted-foreground hover:text-primary underline-offset-4 hover:underline">
+                                Forgot password?
                             </Link>
                         </div>
-                    </CardFooter>
-                </form>
-            </Card>
-        </div>
+                        <Input id="password" name="password" type="password" required />
+                    </div>
+                    {error && (
+                        <div className="text-red-500 text-sm text-center font-medium">
+                            {error}
+                        </div>
+                    )}
+                </CardContent>
+                <CardFooter className="flex flex-col gap-4">
+                    <Button className="w-full font-semibold" disabled={loading}>
+                        {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                        Sign In
+                    </Button>
+                    <div className="text-center text-sm text-muted-foreground">
+                        Don&apos;t have an account?{' '}
+                        <Link href="/signup" className="underline underline-offset-4 hover:text-primary">
+                            Sign up
+                        </Link>
+                    </div>
+                </CardFooter>
+            </form>
+        </Card>
+        </div >
     )
 }
