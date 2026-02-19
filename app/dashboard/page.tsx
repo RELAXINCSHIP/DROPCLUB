@@ -84,7 +84,6 @@ export default async function DashboardPage() {
                             entryCost={drop.entry_cost || 0}
                             winnerVideoUrl={drop.winner_video_url}
                             entries={drop.entry_count || 0}
-                            entries={drop.entry_count || 0}
                             isEntered={enteredDropIds.has(drop.id)}
                         />
                     ))}
