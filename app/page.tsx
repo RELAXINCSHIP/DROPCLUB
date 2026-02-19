@@ -6,21 +6,21 @@ import { Zap, TrendingUp, Shield } from 'lucide-react'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8 md:p-24 text-center overflow-hidden relative">
+    <main className="flex min-h-screen flex-col items-center justify-center p-6 md:p-24 text-center overflow-hidden relative">
       <div className="absolute inset-0 z-0">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/40 via-background to-background" />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[128px]" />
-        <div className="absolute top-20 left-20 w-[300px] h-[300px] bg-blue-600/10 rounded-full blur-[128px]" />
+        <div className="absolute bottom-0 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-purple-600/10 rounded-full blur-[128px]" />
+        <div className="absolute top-20 left-20 w-[200px] md:w-[300px] h-[200px] md:h-[300px] bg-blue-600/10 rounded-full blur-[128px]" />
       </div>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="z-10"
+        className="z-10 w-full max-w-4xl mx-auto"
       >
         <div className="flex justify-center mb-6">
-          <div className="bg-zinc-900/50 border border-zinc-800 backdrop-blur-md px-4 py-1.5 rounded-full text-sm flex items-center gap-2 text-zinc-300">
+          <div className="bg-zinc-900/50 border border-zinc-800 backdrop-blur-md px-4 py-1.5 rounded-full text-xs md:text-sm flex items-center gap-2 text-zinc-300">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
@@ -29,31 +29,31 @@ export default function Home() {
           </div>
         </div>
 
-        <h1 className="text-6xl md:text-8xl font-black mb-6 tracking-tighter bg-gradient-to-br from-white via-zinc-200 to-zinc-600 bg-clip-text text-transparent drop-shadow-sm">
+        <h1 className="text-5xl md:text-8xl font-black mb-6 tracking-tighter bg-gradient-to-br from-white via-zinc-200 to-zinc-600 bg-clip-text text-transparent drop-shadow-sm px-2">
           DROPCLUB
         </h1>
 
-        <p className="text-xl md:text-3xl text-zinc-400 mb-12 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-lg md:text-3xl text-zinc-400 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed px-4">
           Win Cash. Win Clout. Win Access.
-          <br />
-          <span className="text-zinc-100">The club you actually want to be in.</span>
+          <br className="hidden md:block" />
+          <span className="text-zinc-100 block mt-2 md:mt-0">The club you actually want to be in.</span>
         </p>
 
-        <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-          <Link href="/signup">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full px-4">
+          <Link href="/signup" className="w-full sm:w-auto">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white text-black px-8 py-4 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_40px_rgba(255,255,255,0.5)] transition-all"
+              className="w-full sm:w-auto bg-white text-black px-8 py-4 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_40px_rgba(255,255,255,0.5)] transition-all"
             >
               Join the Club
             </motion.button>
           </Link>
-          <Link href="/login">
+          <Link href="/login" className="w-full sm:w-auto">
             <motion.button
               whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
               whileTap={{ scale: 0.95 }}
-              className="border border-zinc-800 bg-zinc-950/50 backdrop-blur-md px-8 py-4 rounded-full font-bold text-lg text-white transition-all"
+              className="w-full sm:w-auto border border-zinc-800 bg-zinc-950/50 backdrop-blur-md px-8 py-4 rounded-full font-bold text-lg text-white transition-all"
             >
               Log In
             </motion.button>
