@@ -51,17 +51,19 @@ export default async function DashboardPage() {
 
     return (
         <div className="space-y-8">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 className="text-3xl font-bold tracking-tight">Active Drops</h2>
                     <p className="text-muted-foreground">New chances to win every single day.</p>
                 </div>
                 {isSubscribed ? (
-                    <div className="bg-green-500/10 text-green-500 px-4 py-2 rounded-full text-sm font-semibold border border-green-500/20">
+                    <div className="bg-green-500/10 text-green-500 px-4 py-2 rounded-full text-sm font-semibold border border-green-500/20 w-fit">
                         Member Active
                     </div>
                 ) : (
-                    <SubscribeButton priceId="price_1T2LzWRzX9jiFfU6ThMu696z" />
+                    <div className="w-full md:w-auto">
+                        <SubscribeButton priceId="price_1T2LzWRzX9jiFfU6ThMu696z" />
+                    </div>
                 )}
             </div>
 
