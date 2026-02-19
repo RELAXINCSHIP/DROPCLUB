@@ -27,7 +27,7 @@ export default function DashboardLayout({
                     <nav className="flex items-center gap-6 text-sm font-medium">
                         <Link href="/dashboard" className="flex items-center gap-2 transition-colors hover:text-purple-400 text-zinc-400 hover:text-white">
                             <TrendingUp className="h-4 w-4" />
-                            <span className="hidden sm:inline">Overview</span>
+                            <span className="hidden sm:inline">Drops</span>
                         </Link>
                         <Link href="/dashboard/arcade" className="flex items-center gap-2 transition-colors hover:text-pink-400 text-zinc-400 hover:text-white group">
                             <Gamepad2 className="h-4 w-4 group-hover:rotate-12 transition-transform" />
