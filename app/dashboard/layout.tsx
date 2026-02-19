@@ -21,7 +21,7 @@ export default function DashboardLayout({
                         <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600 shadow-[0_0_15px_-3px_rgba(168,85,247,0.4)]">
                             <Zap className="h-5 w-5 text-white" />
                         </div>
-                        <span className="hidden md:block bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">DROPCLUB</span>
+                        <span className="hidden md:block bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent font-[family-name:var(--font-glitch)] text-2xl tracking-widest">DROPCLUB</span>
                     </Link>
                     <nav className="flex items-center gap-6 text-sm font-medium">
                         <Link href="/dashboard" className="flex items-center gap-2 transition-colors hover:text-purple-400 text-zinc-400 hover:text-white">
