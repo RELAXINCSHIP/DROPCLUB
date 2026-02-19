@@ -4,6 +4,8 @@ import { ArcadeStats } from '@/components/arcade/arcade-stats'
 import { GameCard } from '@/components/arcade/game-card'
 import { Ticket, Dna, Gift } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
+
 export default async function ArcadePage() {
     const supabase = await createClient()
 
@@ -13,11 +15,19 @@ export default async function ArcadePage() {
         return redirect('/login')
     }
 
-    const { data: profile } = await supabase
+    const { data: profile, error } = await supabase
         .from('profiles')
         .select('points, streak_days, lifetime_points')
         .eq('id', user.id)
         .single()
+
+    if (error) {
+        console.error('Error fetching profile:', error)
+    }
+
+    if (!profile) {
+        console.warn('No profile found for user:', user.id)
+    }
 
     // Default values if profile fetch fails or fields are null (schema update prop)
     const points = profile?.points || 0

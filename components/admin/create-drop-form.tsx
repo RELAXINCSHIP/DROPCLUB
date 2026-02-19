@@ -71,6 +71,16 @@ export function CreateDropForm() {
                 <Label htmlFor="prize">Prize Description</Label>
                 <Input id="prize" name="prize" placeholder="e.g. Sneakers size 10" required />
             </div>
+            <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                    <Label htmlFor="entry_cost">Entry Cost (Pts)</Label>
+                    <Input id="entry_cost" name="entry_cost" type="number" defaultValue="5" min="0" required />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="winner_video_url">Winner Video URL (Optional)</Label>
+                    <Input id="winner_video_url" name="winner_video_url" placeholder="https://..." />
+                </div>
+            </div>
             <div className="space-y-2">
                 <Label htmlFor="image-upload">Drop Image</Label>
                 <div className="flex gap-2">

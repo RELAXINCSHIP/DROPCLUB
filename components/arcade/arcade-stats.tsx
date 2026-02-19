@@ -1,7 +1,10 @@
 'use client'
 
+import { createClient } from '@/utils/supabase/client'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Trophy, Flame, Coins } from 'lucide-react'
+import { toast } from 'sonner'
 
 interface ArcadeStatsProps {
     points: number
@@ -9,7 +12,47 @@ interface ArcadeStatsProps {
     lifetimePoints: number
 }
 
-export function ArcadeStats({ points, streak, lifetimePoints }: ArcadeStatsProps) {
+export function ArcadeStats({ points: initialPoints, streak: initialStreak, lifetimePoints: initialLifetime }: ArcadeStatsProps) {
+    const [points, setPoints] = useState(initialPoints)
+    const [streak, setStreak] = useState(initialStreak)
+    const [lifetimePoints, setLifetimePoints] = useState(initialLifetime)
+    const supabase = createClient()
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
+
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('points, streak_days, lifetime_points')
+                .eq('id', user.id)
+                .single()
+
+            if (profile) {
+                setPoints(profile.points || 0)
+                setStreak(profile.streak_days || 0)
+                setLifetimePoints(profile.lifetime_points || 0)
+
+                // Debugging / User Feedback
+                if (profile.points !== initialPoints) {
+                    console.log('Points synced:', profile.points)
+                }
+            }
+        }
+
+        fetchStats()
+        // Optional: Set up a small interval or focus listener if we really want to be aggressive
+        // But mount fetch should be enough for the "Back" navigation case
+    }, [])
+
+    // Refresh display if server props change (e.g. on router.refresh())
+    useEffect(() => {
+        setPoints(initialPoints)
+        setStreak(initialStreak)
+        setLifetimePoints(initialLifetime)
+    }, [initialPoints, initialStreak, initialLifetime])
+
     // Calculate Rank based on lifetime points
     const getRank = (pts: number) => {
         if (pts >= 1000) return { name: "LEGEND", color: "text-yellow-400" }

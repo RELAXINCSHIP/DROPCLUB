@@ -57,7 +57,7 @@ export default function SettingsPage() {
     }
 
     return (
-        <div className="container py-8 max-w-2xl space-y-8">
+        <div className="container mx-auto px-4 py-8 max-w-2xl space-y-8">
             <h1 className="text-3xl font-bold">Settings</h1>
 
             <Card>
@@ -104,11 +104,41 @@ export default function SettingsPage() {
                     </CardTitle>
                     <CardDescription>Use this to test "Pro" features since Webhooks don't work on localhost.</CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <Button onClick={handleDebugUpgrade} disabled={debugLoading} className="bg-yellow-600 hover:bg-yellow-700 text-white w-full sm:w-auto">
-                        {debugLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                        Force Upgrade to Pro
-                    </Button>
+                <CardContent className="space-y-4">
+                    <p className="text-sm text-yellow-600/80 mb-2">
+                        Tools for testing the economy and "fresh user" flows.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                        <Button onClick={handleDebugUpgrade} disabled={debugLoading} className="bg-yellow-600 hover:bg-yellow-700 text-white w-full sm:w-auto">
+                            {debugLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                            Force Upgrade to Pro
+                        </Button>
+                        <Button
+                            onClick={async () => {
+                                if (!confirm("Are you sure? This will wipe your points, entries, and stats.")) return
+                                setDebugLoading(true)
+                                try {
+                                    // Dynamically import to ensure client-side execution calls server action cleanly
+                                    const { resetProfile } = await import('@/app/actions')
+                                    const res = await resetProfile()
+                                    if (res.error) throw new Error(res.error)
+                                    alert("Profile Reset! You have 20 PTS and no entries.")
+                                    router.refresh()
+                                    router.push('/dashboard')
+                                } catch (e: any) {
+                                    alert(e.message)
+                                } finally {
+                                    setDebugLoading(false)
+                                }
+                            }}
+                            disabled={debugLoading}
+                            variant="destructive"
+                            className="w-full sm:w-auto"
+                        >
+                            {debugLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                            Reset Profile (Wipe Data)
+                        </Button>
+                    </div>
                 </CardContent>
             </Card>
         </div>
