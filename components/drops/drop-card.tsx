@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Clock, Users, Trophy, Loader2, Zap } from 'lucide-react'
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import { Zap, Users, Trophy, Loader2, Play } from 'lucide-react'
+import { Countdown } from '@/components/dashboard/countdown'
+import { createClient } from '@/utils/supabase/client'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { enterDrop } from '@/app/actions'
-import { Countdown } from './countdown'
-import { createClient } from '@/utils/supabase/client'
 
 interface DropCardProps {
     id: number
@@ -17,13 +17,15 @@ interface DropCardProps {
     endsAt: string
     entries: number
     entryCost: number
+    winnerVideoUrl?: string | null
     isEntered?: boolean
 }
 
-export function DropCard({ id, title, prize, image, endsAt, entries: initialEntries, entryCost, isEntered }: DropCardProps) {
+export function DropCard({ id, title, prize, image, endsAt, entries: initialEntries, entryCost, winnerVideoUrl, isEntered }: DropCardProps) {
     const [loading, setLoading] = useState(false)
     const [entryCount, setEntryCount] = useState(initialEntries)
     const [entered, setEntered] = useState(isEntered)
+    const [showVideo, setShowVideo] = useState(false)
 
     // ... (useEffect remains same) ...
 
@@ -97,24 +99,46 @@ export function DropCard({ id, title, prize, image, endsAt, entries: initialEntr
                 </CardContent>
 
                 <CardFooter>
-                    <Button
-                        className={`w-full font-bold h-12 text-md transition-all relative overflow-hidden ${entered ? 'bg-zinc-800 text-zinc-500 border border-zinc-700' : 'bg-white text-black hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)]'}`}
-                        disabled={entered || loading}
-                        onClick={handleEnter}
-                    >
-                        {entered ? (
-                            'You\'re In'
-                        ) : (
-                            <>
-                                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                {!loading && (
-                                    <span className="relative z-10 flex items-center gap-2">
-                                        Enter {entryCost > 0 ? `(${entryCost} PTS)` : 'Free'} <Zap className={`w-4 h-4 ${!loading && 'fill-black'}`} />
-                                    </span>
-                                )}
-                            </>
-                        )}
-                    </Button>
+                    {winnerVideoUrl ? (
+                        <Dialog open={showVideo} onOpenChange={setShowVideo}>
+                            <DialogTrigger asChild>
+                                <Button className="w-full font-bold h-12 text-md bg-yellow-500 hover:bg-yellow-600 text-black transition-all">
+                                    <Play className="mr-2 h-4 w-4 fill-black" />
+                                    Watch Winner Reveal
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[800px] p-0 bg-black border-zinc-800 overflow-hidden">
+                                <div className="aspect-video w-full">
+                                    <iframe
+                                        src={winnerVideoUrl.replace('watch?v=', 'embed/')}
+                                        title="Winner Announcement"
+                                        className="w-full h-full"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    />
+                                </div>
+                            </DialogContent>
+                        </Dialog>
+                    ) : (
+                        <Button
+                            className={`w-full font-bold h-12 text-md transition-all relative overflow-hidden ${entered ? 'bg-zinc-800 text-zinc-500 border border-zinc-700' : 'bg-white text-black hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)]'}`}
+                            disabled={entered || loading}
+                            onClick={handleEnter}
+                        >
+                            {entered ? (
+                                'You\'re In'
+                            ) : (
+                                <>
+                                    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                    {!loading && (
+                                        <span className="relative z-10 flex items-center gap-2">
+                                            Enter {entryCost > 0 ? `(${entryCost} PTS)` : 'Free'} <Zap className={`w-4 h-4 ${!loading && 'fill-black'}`} />
+                                        </span>
+                                    )}
+                                </>
+                            )}
+                        </Button>
+                    )}
                 </CardFooter>
             </Card>
         </motion.div>
