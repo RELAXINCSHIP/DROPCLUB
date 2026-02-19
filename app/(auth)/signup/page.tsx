@@ -95,6 +95,6 @@ export default function SignupPage() {
                 </CardFooter>
             </form>
         </Card>
-        </div >
+
     )
 }
