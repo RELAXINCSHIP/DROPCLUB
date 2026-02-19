@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Calendar, Clock, Trophy, Loader2, Users } from 'lucide-react'
+import { Clock, Users, Trophy, Loader2, Zap } from 'lucide-react'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { enterDrop } from '@/app/actions'
