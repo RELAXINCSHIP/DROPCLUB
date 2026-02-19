@@ -10,8 +10,6 @@ export const metadata: Metadata = {
   description: 'The exclusive club for daily drops and life-changing prizes.',
 }
 
-import { Toaster } from 'sonner'
-
 export default function RootLayout({
   children,
 }: {
@@ -21,7 +19,6 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={cn(inter.className, "antialiased min-h-screen bg-background text-foreground")}>
         {children}
-        <Toaster theme="dark" position="bottom-right" />
       </body>
     </html>
   )
