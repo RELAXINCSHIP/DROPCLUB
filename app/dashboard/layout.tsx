@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
-import { Zap, TrendingUp, Archive, Settings, LogOut, Gamepad2, LayoutDashboard, Database, User, Shield } from 'lucide-react'
+import { Zap, TrendingUp, Archive, Settings, LogOut, Gamepad, LayoutDashboard, Database, User, Shield } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export default function DashboardLayout({
@@ -30,7 +30,7 @@ export default function DashboardLayout({
                             <span className="hidden sm:inline">Drops</span>
                         </Link>
                         <Link href="/dashboard/arcade" className="flex items-center gap-2 transition-colors hover:text-pink-400 text-zinc-400 hover:text-white group">
-                            <Gamepad2 className="h-4 w-4 group-hover:rotate-12 transition-transform" />
+                            <Gamepad className="h-4 w-4 group-hover:rotate-12 transition-transform" />
                             <span className="relative">
                                 <span className="hidden sm:inline">Arcade</span>
                                 <span className="absolute -top-1 -right-2 h-2 w-2 rounded-full bg-pink-500 animate-pulse" />
