@@ -8,31 +8,39 @@ export default function DashboardLayout({
     children: React.ReactNode
 }) {
     return (
-        <div className="min-h-screen bg-background">
-            <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="min-h-screen bg-black text-white selection:bg-purple-500/30">
+            {/* Extended Background */}
+            <div className="fixed inset-0 z-0 pointer-events-none">
+                <div className="absolute inset-0 bg-grid-small-white/[0.05] bg-[size:40px_40px]" />
+                <div className="absolute inset-0 bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
+            </div>
+
+            <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-black/50 backdrop-blur-xl supports-[backdrop-filter]:bg-black/20">
                 <div className="container flex h-16 items-center justify-between">
                     <Link href="/dashboard" className="flex items-center gap-2 font-bold text-xl tracking-tighter">
-                        <Zap className="h-6 w-6 text-purple-500" />
-                        <span className="bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">DROPCLUB</span>
+                        <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600 shadow-[0_0_15px_-3px_rgba(168,85,247,0.4)]">
+                            <Zap className="h-5 w-5 text-white" />
+                        </div>
+                        <span className="hidden md:block bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">DROPCLUB</span>
                     </Link>
                     <nav className="flex items-center gap-6 text-sm font-medium">
-                        <Link href="/dashboard" className="flex items-center gap-2 transition-colors hover:text-purple-400 text-foreground">
+                        <Link href="/dashboard" className="flex items-center gap-2 transition-colors hover:text-purple-400 text-zinc-400 hover:text-white">
                             <LayoutDashboard className="h-4 w-4" />
-                            Drops
+                            <span className="hidden sm:inline">Drops</span>
                         </Link>
                         {/* Vault is now part of the dashboard page, but let's keep a link that scrolls or just points there */}
-                        <Link href="/dashboard#vault" className="flex items-center gap-2 transition-colors hover:text-purple-400 text-muted-foreground">
+                        <Link href="/dashboard#vault" className="flex items-center gap-2 transition-colors hover:text-yellow-400 text-zinc-400 hover:text-white">
                             <Database className="h-4 w-4" />
-                            Vault
+                            <span className="hidden sm:inline">Vault</span>
                         </Link>
-                        <Link href="/settings" className="flex items-center gap-2 transition-colors hover:text-purple-400 text-muted-foreground">
+                        <Link href="/settings" className="flex items-center gap-2 transition-colors hover:text-blue-400 text-zinc-400 hover:text-white">
                             <Settings className="h-4 w-4" />
-                            Settings
+                            <span className="hidden sm:inline">Settings</span>
                         </Link>
                     </nav>
                 </div>
             </header>
-            <main className="container py-8">
+            <main className="container py-8 relative z-10">
                 {children}
             </main>
         </div>
