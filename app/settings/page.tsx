@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Loader2, CreditCard, User, Shield } from 'lucide-react'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
-import { useRouter } from 'next/navigation'
+
 
 export default function SettingsPage() {
     const [loading, setLoading] = useState(false)
