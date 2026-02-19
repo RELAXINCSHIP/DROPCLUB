@@ -86,3 +86,32 @@ values
 ('Yeezy Boost 350 V2', 'Sneakers', '/drops/yeezy.jpg', now() + interval '2 hours', 1240),
 ('iPhone 15 Pro Max', 'Tech Bundle', '/drops/iphone.jpg', now() + interval '4 hours', 890),
 ('$500 Cash Drop', 'Cash', '/drops/cash.jpg', now() + interval '6 hours', 2100);
+
+-- ARCADE & RETENTION SCHEMA
+
+-- Add points and streak tracking to profiles
+alter table profiles 
+add column if not exists points int default 0,
+add column if not exists lifetime_points int default 0,
+add column if not exists streak_days int default 0,
+add column if not exists last_played_at timestamp with time zone;
+
+-- Create redemptions table
+create table redemptions (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references profiles(id) not null,
+  reward_id text not null,
+  cost int not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- Enable RLS for redemptions
+alter table redemptions enable row level security;
+
+-- Users can view their own redemptions
+create policy "Users can view own redemptions" on redemptions
+  for select using (auth.uid() = user_id);
+
+-- Users can insert their own redemptions (server-side validation required for point deduction)
+create policy "Users can insert own redemptions" on redemptions
+  for insert with check (auth.uid() = user_id);
