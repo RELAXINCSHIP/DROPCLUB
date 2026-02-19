@@ -1,4 +1,3 @@
-```javascript
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { Zap, TrendingUp, Archive, Settings, LogOut, Gamepad2, LayoutDashboard, Database, User, Shield } from 'lucide-react'
