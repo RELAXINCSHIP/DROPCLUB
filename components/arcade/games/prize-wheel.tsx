@@ -29,7 +29,7 @@ interface PrizeWheelGameProps {
 
 export function PrizeWheelGame({ initialPoints }: PrizeWheelGameProps) {
     const [isSpinning, setIsSpinning] = useState(false)
-    const [winResult, setWinResult] = useState<{ label: string, value: number, color: string } | null>(null)
+    const [winResult, setWinResult] = useState<{ label: string, value: number, color: string, special?: boolean } | null>(null)
     const [error, setError] = useState<string | null>(null)
     const [currentPoints, setCurrentPoints] = useState(initialPoints)
     const controls = useAnimation()

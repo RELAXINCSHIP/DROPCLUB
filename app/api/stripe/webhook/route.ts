@@ -2,10 +2,9 @@ import { NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import Stripe from 'stripe'
 import { createAdminClient } from '@/utils/supabase/admin'
+import { stripe } from '@/utils/stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    // apiVersion: '2023-10-16',
-})
+// const stripe = new Stripe... replaced by import
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!
 
