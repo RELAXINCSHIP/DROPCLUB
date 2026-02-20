@@ -20,6 +20,21 @@ const WHEEL_PRIZES = [
     { label: 'JACKPOT', value: 500, weight: 1, color: '#f59e0b', special: true },
 ]
 
+const SLOT_SYMBOLS = ['🍒', '🍋', '🔔', '💎', '7️⃣', '🍀']
+
+const COINFLIP_OUTCOMES = [
+    { result: 'heads', value: 15, weight: 48 },
+    { result: 'tails', value: 15, weight: 48 },
+    { result: 'edge', value: 100, weight: 4 },
+]
+
+const HILO_PRIZES = [
+    { value: 5, weight: 60 },
+    { value: 15, weight: 25 },
+    { value: 40, weight: 12 },
+    { value: 150, weight: 3 },
+]
+
 type GameResult = {
     success: boolean
     pointsWon?: number
@@ -39,7 +54,7 @@ function getWeightedRandom<T extends { weight: number }>(items: T[]): T {
     return items[0]
 }
 
-export async function playArcadeGame(gameType: 'scratch' | 'wheel'): Promise<GameResult> {
+export async function playArcadeGame(gameType: 'scratch' | 'wheel' | 'coinflip' | 'slots' | 'hilo'): Promise<GameResult> {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
@@ -53,7 +68,7 @@ export async function playArcadeGame(gameType: 'scratch' | 'wheel'): Promise<Gam
     try {
         // 1. Determine Result
         let pointsWon = 0
-        let prizeData = null
+        let prizeData: any = null
 
         if (gameType === 'scratch') {
             const prize = getWeightedRandom(SCRATCH_PRIZES)
@@ -63,6 +78,47 @@ export async function playArcadeGame(gameType: 'scratch' | 'wheel'): Promise<Gam
             const prize = getWeightedRandom(WHEEL_PRIZES)
             pointsWon = prize.value
             prizeData = prize
+        } else if (gameType === 'coinflip') {
+            // Player picks heads or tails, server picks result
+            const outcome = getWeightedRandom(COINFLIP_OUTCOMES)
+            // 50/50 chance - player always "picks heads" for simplicity
+            // The client will handle the visual flip
+            const playerWins = Math.random() < 0.5
+            pointsWon = playerWins ? outcome.value : 0
+            prizeData = { ...outcome, playerWins, landed: outcome.result }
+        } else if (gameType === 'slots') {
+            // Generate 3 reels
+            const reel1 = SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)]
+            const reel2 = SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)]
+            const reel3 = SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)]
+            const reels = [reel1, reel2, reel3]
+
+            if (reel1 === reel2 && reel2 === reel3) {
+                // Triple match - JACKPOT
+                pointsWon = reel1 === '7️⃣' ? 500 : reel1 === '💎' ? 200 : 75
+            } else if (reel1 === reel2 || reel2 === reel3 || reel1 === reel3) {
+                // Double match
+                pointsWon = 15
+            } else {
+                pointsWon = 0
+            }
+            prizeData = { reels, jackpot: reel1 === reel2 && reel2 === reel3 }
+        } else if (gameType === 'hilo') {
+            // Server generates two numbers, player guesses if second is higher
+            const card1 = Math.floor(Math.random() * 13) + 1 // 1-13
+            const card2 = Math.floor(Math.random() * 13) + 1
+            const isHigher = card2 > card1
+            const isSame = card2 === card1
+            // Points based on difficulty (how close the numbers are)
+            const diff = Math.abs(card2 - card1)
+            if (isSame) {
+                pointsWon = 50 // Perfect guess bonus
+            } else if (diff <= 2) {
+                pointsWon = 25
+            } else {
+                pointsWon = 10
+            }
+            prizeData = { card1, card2, isHigher, isSame }
         }
 
         // 2. Transaction: Update User Points using ADMIN CLIENT
@@ -119,6 +175,9 @@ export async function playArcadeGame(gameType: 'scratch' | 'wheel'): Promise<Gam
         revalidatePath('/dashboard/arcade')
         revalidatePath('/dashboard/arcade/scratch')
         revalidatePath('/dashboard/arcade/wheel')
+        revalidatePath('/dashboard/arcade/coinflip')
+        revalidatePath('/dashboard/arcade/slots')
+        revalidatePath('/dashboard/arcade/hilo')
 
         return {
             success: true,

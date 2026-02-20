@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { ArcadeStats } from '@/components/arcade/arcade-stats'
 import { GameCard } from '@/components/arcade/game-card'
-import { Ticket, Dna, Gift } from 'lucide-react'
+import { Ticket, Dna, Gift, Coins, Cherry, ArrowUpDown } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -72,6 +72,30 @@ export default async function ArcadePage() {
                     color="from-yellow-500/50 to-orange-500/50"
                     href="/dashboard/arcade/store"
                     delay={0.3}
+                />
+                <GameCard
+                    title="COIN FLIP"
+                    description="50/50 double or nothing. Land on edge for 100 PTS!"
+                    icon={<Coins className="w-10 h-10 text-amber-400" />}
+                    color="from-amber-500/50 to-yellow-500/50"
+                    href="/dashboard/arcade/coinflip"
+                    delay={0.4}
+                />
+                <GameCard
+                    title="SLOTS"
+                    description="Pull the lever! Match 3 symbols for a massive jackpot."
+                    icon={<Cherry className="w-10 h-10 text-red-400" />}
+                    color="from-red-500/50 to-orange-500/50"
+                    href="/dashboard/arcade/slots"
+                    delay={0.5}
+                />
+                <GameCard
+                    title="HI-LO"
+                    description="Guess if the next card is higher or lower. Close calls pay more!"
+                    icon={<ArrowUpDown className="w-10 h-10 text-blue-400" />}
+                    color="from-blue-500/50 to-indigo-500/50"
+                    href="/dashboard/arcade/hilo"
+                    delay={0.6}
                 />
             </div>
 
