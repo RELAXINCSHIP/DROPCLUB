@@ -137,20 +137,17 @@ export async function playArcadeGame(gameType: 'scratch' | 'wheel' | 'coinflip' 
             throw new Error('Profile not found')
         }
 
-        // Check Cooldown (24 hours)
-        if (profile.last_played_at) {
-            const lastPlayed = new Date(profile.last_played_at)
-            const now = new Date()
-            const diffHours = (now.getTime() - lastPlayed.getTime()) / (1000 * 60 * 60)
-
-            // Make sure checking against last_played_at works
-            if (diffHours < 24) {
-                // Double check if valid date
-                if (!isNaN(lastPlayed.getTime())) {
-                    return { success: false, error: 'Daily limit reached. Come back tomorrow!' }
-                }
-            }
-        }
+        // Cooldown disabled for now
+        // if (profile.last_played_at) {
+        //     const lastPlayed = new Date(profile.last_played_at)
+        //     const now = new Date()
+        //     const diffHours = (now.getTime() - lastPlayed.getTime()) / (1000 * 60 * 60)
+        //     if (diffHours < 24) {
+        //         if (!isNaN(lastPlayed.getTime())) {
+        //             return { success: false, error: 'Daily limit reached. Come back tomorrow!' }
+        //         }
+        //     }
+        // }
 
         const newPoints = (profile.points || 0) + pointsWon
         const newLifetime = (profile.lifetime_points || 0) + pointsWon
