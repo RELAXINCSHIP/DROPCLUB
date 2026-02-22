@@ -9,6 +9,7 @@ import { createClient } from '@/utils/supabase/client'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { enterDrop } from '@/app/actions'
+import { DropComments } from './drop-comments'
 
 interface DropCardProps {
     id: number
@@ -181,6 +182,11 @@ export function DropCard({ id, title, prize, image, endsAt, entries: initialEntr
                         </Button>
                     )}
                 </CardFooter>
+
+                {/* Comments */}
+                <div className="px-6 pb-4">
+                    <DropComments dropId={id} />
+                </div>
             </Card>
         </motion.div>
     )
