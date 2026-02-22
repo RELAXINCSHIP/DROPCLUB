@@ -13,6 +13,8 @@ const glitchFont = Rubik_Glitch({
 export const metadata: Metadata = {
   title: 'DROPCLUB | Win Cash. Win Clout.',
   description: 'The exclusive club for the top 1%.',
+  manifest: '/manifest.json',
+  themeColor: '#a855f7',
 }
 
 export default function RootLayout({

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { Zap, Users, Trophy, Loader2, Play } from 'lucide-react'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
@@ -27,6 +27,26 @@ export function DropCard({ id, title, prize, image, endsAt, entries: initialEntr
     const [entryCount, setEntryCount] = useState(initialEntries)
     const [entered, setEntered] = useState(isEntered)
     const [showVideo, setShowVideo] = useState(false)
+    const cardRef = useRef<HTMLDivElement>(null)
+    const [tilt, setTilt] = useState({ x: 0, y: 0 })
+    const [glarePos, setGlarePos] = useState({ x: 50, y: 50 })
+
+    const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+        if (!cardRef.current) return
+        const rect = cardRef.current.getBoundingClientRect()
+        const x = (e.clientX - rect.left) / rect.width
+        const y = (e.clientY - rect.top) / rect.height
+        setTilt({
+            x: (y - 0.5) * -12,
+            y: (x - 0.5) * 12,
+        })
+        setGlarePos({ x: x * 100, y: y * 100 })
+    }, [])
+
+    const handleMouseLeave = useCallback(() => {
+        setTilt({ x: 0, y: 0 })
+        setGlarePos({ x: 50, y: 50 })
+    }, [])
 
     // ... (useEffect remains same) ...
 
@@ -48,10 +68,30 @@ export function DropCard({ id, title, prize, image, endsAt, entries: initialEntr
 
     return (
         <motion.div
+            ref={cardRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
             whileHover={{ y: -5 }}
             transition={{ type: 'spring', stiffness: 300 }}
+            style={{
+                transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+                transition: 'transform 0.15s ease-out',
+            }}
         >
-            <Card className="overflow-hidden border border-white/10 bg-zinc-900/40 backdrop-blur-xl transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_30px_-5px_rgba(168,85,247,0.2)] group">
+            <Card className="overflow-hidden border border-white/10 bg-zinc-900/40 backdrop-blur-xl transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_30px_-5px_rgba(168,85,247,0.2)] group relative">
+                {/* Holographic glare overlay */}
+                <div
+                    className="pointer-events-none absolute inset-0 z-20 opacity-0 group-hover:opacity-30 transition-opacity duration-300 mix-blend-overlay"
+                    style={{
+                        background: `radial-gradient(circle at ${glarePos.x}% ${glarePos.y}%, rgba(255,255,255,0.8) 0%, transparent 60%)`,
+                    }}
+                />
+                <div
+                    className="pointer-events-none absolute inset-0 z-20 opacity-0 group-hover:opacity-20 transition-opacity duration-300 mix-blend-color-dodge"
+                    style={{
+                        background: `linear-gradient(${135 + tilt.y * 5}deg, #ff0000, #ff7700, #ffff00, #00ff00, #0099ff, #6633ff, #ff00ff)`,
+                    }}
+                />
                 <div className="aspect-video w-full bg-zinc-950 relative overflow-hidden">
                     {/* ... (image and countdown remain same) ... */}
                     <div className="absolute inset-0 flex items-center justify-center text-zinc-600">

@@ -36,9 +36,13 @@ export default function DashboardLayout({
                                 <span className="absolute -top-1 -right-2 h-2 w-2 rounded-full bg-pink-500 animate-pulse" />
                             </span>
                         </Link>
-                        <Link href="/dashboard/vault" className="flex items-center gap-2 transition-colors hover:text-yellow-400 text-zinc-400 hover:text-white">
+                        <Link href="/dashboard/vault" className="flex items-center gap-2 transition-colors hover:text-yellow-400 text-zinc-400">
                             <Database className="h-4 w-4" />
                             <span className="hidden sm:inline">Vault</span>
+                        </Link>
+                        <Link href="/dashboard/leaderboard" className="flex items-center gap-2 transition-colors hover:text-orange-400 text-zinc-400">
+                            <TrendingUp className="h-4 w-4" />
+                            <span className="hidden sm:inline">Ranks</span>
                         </Link>
                         <Link href="/settings" className="flex items-center gap-2 transition-colors hover:text-blue-400 text-zinc-400 hover:text-white">
                             <Settings className="h-4 w-4" />

@@ -128,7 +128,7 @@ export async function playArcadeGame(gameType: 'scratch' | 'wheel' | 'coinflip' 
         // Fetch current profile with Admin Client to ensure we get data even if RLS is strict
         const { data: profile, error: fetchError } = await adminSupabase
             .from('profiles')
-            .select('points, lifetime_points, last_played_at')
+            .select('points, lifetime_points, last_played_at, email')
             .eq('id', user.id)
             .single()
 
@@ -167,6 +167,20 @@ export async function playArcadeGame(gameType: 'scratch' | 'wheel' | 'coinflip' 
         }
 
         console.log(`[ARCADE] Updated points for ${user.id}: ${profile.points} -> ${newPoints}`)
+
+        // Log to activity feed if notable win
+        if (pointsWon >= 50) {
+            try {
+                await adminSupabase.from('activity_feed').insert({
+                    user_id: user.id,
+                    username: profile.email?.split('@')[0] || 'Someone',
+                    event_type: pointsWon >= 200 ? 'jackpot' : 'win',
+                    description: `won ${pointsWon} PTS on ${gameType}! 🎉`,
+                })
+            } catch (e) {
+                // Non-critical, don't fail the game
+            }
+        }
 
         revalidatePath('/dashboard', 'layout')
         revalidatePath('/dashboard/arcade')

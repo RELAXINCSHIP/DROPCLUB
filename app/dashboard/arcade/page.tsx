@@ -2,7 +2,8 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { ArcadeStats } from '@/components/arcade/arcade-stats'
 import { GameCard } from '@/components/arcade/game-card'
-import { Ticket, Dna, Gift, Coins, Cherry, ArrowUpDown } from 'lucide-react'
+import { Ticket, Dna, Gift, Coins, Cherry, ArrowUpDown, Package } from 'lucide-react'
+import { MysteryBox } from '@/components/arcade/mystery-box'
 
 export const dynamic = 'force-dynamic'
 
@@ -97,6 +98,11 @@ export default async function ArcadePage() {
                     href="/dashboard/arcade/hilo"
                     delay={0.6}
                 />
+            </div>
+
+            {/* Mystery Box Section */}
+            <div className="mt-12">
+                <MysteryBox userPoints={points} />
             </div>
 
             <div className="mt-12 p-6 rounded-2xl bg-zinc-900/30 border border-white/5 text-center">

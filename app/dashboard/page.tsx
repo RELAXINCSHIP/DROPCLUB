@@ -6,6 +6,8 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { SubscribeButton } from '@/components/stripe/subscribe-button'
 import { Trophy } from 'lucide-react'
+import { ActivityFeed } from '@/components/dashboard/activity-feed'
+import { StreakBanner } from '@/components/dashboard/streak-banner'
 
 export const dynamic = 'force-dynamic'
 
@@ -51,6 +53,7 @@ export default async function DashboardPage() {
 
     return (
         <div className="space-y-8">
+            <StreakBanner />
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 className="text-3xl font-bold tracking-tight">Active Drops</h2>
@@ -90,6 +93,9 @@ export default async function DashboardPage() {
                 </div>
             )}
 
+            {/* Live Activity Feed */}
+            <ActivityFeed />
+
             <div className="mt-12">
                 <h2 className="text-2xl font-bold tracking-tight mb-4">Your Vault</h2>
 
@@ -102,7 +108,6 @@ export default async function DashboardPage() {
                                 </div>
                                 <Trophy className="h-12 w-12 text-yellow-500 mb-4" />
                                 <h3 className="text-xl font-bold text-yellow-100">{drop.title}</h3>
-                                <p className="text-yellow-200/80 mb-4">You won: {drop.prize}</p>
                                 <p className="text-yellow-200/80 mb-4">You won: {drop.prize}</p>
                                 <ClaimPrizeButton dropId={drop.id} dropTitle={drop.title} prizeName={drop.prize} />
                             </div>
